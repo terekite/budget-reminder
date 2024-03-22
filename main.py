@@ -1,12 +1,28 @@
-import pytextnow
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+ 
+message = MIMEMultipart()
+message["To"] = 'Omar Ali'
+message["From"] = 'budget-reminder'
+message["Subject"] = 'Hello! Your Budget Reminder for the Day'
 
-# Way 1. Include connect.sid and csrf cookie in the constructor
-client = pytextnow.Client("username", sid_cookie="sid", csrf_cookie="csrf").
+title = '<b> Title line here. </b>'
+messageText = MIMEText('''Message body goes here.''','html')
+message.attach(messageText)
 
-# Way 2. Just instantiate and a prompt will appear on the command line
+email = 'omarmahmoud2552@gmail.com'
+password = 'vknm omya vzje mhry'
 
-# Way 3. If you inputed the wrong cookie and are getting RequestFailed. This is how to reset it
-# client.auth_reset()
-# will redo the prompt
+server = smtplib.SMTP('smtp.gmail.com:587')
+server.ehlo('Gmail')
+server.starttls()
+server.login(email,password)
+fromaddr = 'omarmahmoud2552@gmail.com'
+toaddrs  = 'omar.mail@icloud.com'
+server.sendmail(fromaddr,toaddrs,message.as_string())
+#toaddrs  = 'kristinetangg@gmail.com'
+#server.sendmail(fromaddr,toaddrs,message.as_string())
 
-client.send_sms("5108901021", "Hello World!")
+server.quit()
+
